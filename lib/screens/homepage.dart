@@ -23,7 +23,6 @@ class _HomePageState extends State<HomePage> {
 
   @override
   Widget build(BuildContext context) {
-    final realmServices = Provider.of<RealmServices>(context);
     return Provider.of<RealmServices?>(context, listen: false) == null
         ? Container()
         : Scaffold(
@@ -51,7 +50,7 @@ class _HomePageState extends State<HomePage> {
       // ),
       body: const TodoList(),
             floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-            floatingActionButton: const CreateItemAction(),
+            // floatingActionButton: const CreateItemAction(),
     );
   }
 }

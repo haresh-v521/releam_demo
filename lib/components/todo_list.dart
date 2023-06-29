@@ -1,10 +1,13 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_todo/components/todo_item.dart';
 import 'package:flutter_todo/components/widgets.dart';
+import 'package:flutter_todo/realm/new_schema.dart';
 import 'package:flutter_todo/realm/schemas.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todo/realm/realm_services.dart';
 import 'package:realm/realm.dart';
+
+import '../realm/sales_schema.dart';
 
 class TodoList extends StatefulWidget {
   const TodoList({Key? key}) : super(key: key);
@@ -14,10 +17,7 @@ class TodoList extends StatefulWidget {
 }
 
 class _TodoListState extends State<TodoList> {
-  @override
-  void initState() {
-    super.initState();
-  }
+bool isTrue = true;
 
   @override
   void dispose() {
@@ -26,7 +26,7 @@ class _TodoListState extends State<TodoList> {
 
   @override
   Widget build(BuildContext context) {
-    final realmServices = Provider.of<RealmServices>(context);
+    final  realmServices = Provider.of<RealmServices>(context);
     return Stack(
       children: [
         Column(
@@ -56,9 +56,9 @@ class _TodoListState extends State<TodoList> {
             Expanded(
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
-                child: StreamBuilder<RealmResultsChanges<Item>>(
-                  stream: realmServices.realm
-                      .query<Item>("TRUEPREDICATE SORT(_id ASC)")
+                child: StreamBuilder<RealmResultsChanges<Sale>>(
+                  stream: realmServices!.realm
+                      .query<Sale>("couponUsed==$isTrue")
                       .changes,
                   builder: (context, snapshot) {
                     final data = snapshot.data;
@@ -66,11 +66,14 @@ class _TodoListState extends State<TodoList> {
                     if (data == null) return waitingIndicator();
 
                     final results = data.results;
+                   if(results.isNotEmpty){
+                     print("this is result====>${results.first.items.length}");
+                   }
                     return ListView.builder(
                       shrinkWrap: true,
                       itemCount: results.realm.isClosed ? 0 : results.length,
                       itemBuilder: (context, index) => results[index].isValid
-                          ? TodoItem(results[index])
+                          ? Container()/*TodoItem(results[index])*/
                           : Container(),
                     );
                   },
@@ -79,7 +82,7 @@ class _TodoListState extends State<TodoList> {
             ),
           ],
         ),
-        realmServices.isWaiting ? waitingIndicator() : Container(),
+        realmServices!.isWaiting ? waitingIndicator() : Container(),
       ],
     );
   }
