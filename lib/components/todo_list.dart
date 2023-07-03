@@ -57,8 +57,8 @@ bool isTrue = true;
               child: Padding(
                 padding: const EdgeInsets.fromLTRB(16, 0, 16, 0),
                 child: StreamBuilder<RealmResultsChanges<Sale>>(
-                  stream: realmServices!.realm
-                      .query<Sale>("couponUsed==$isTrue")
+                  stream: realmServices.realm
+                      .all<Sale>()
                       .changes,
                   builder: (context, snapshot) {
                     final data = snapshot.data;
@@ -73,7 +73,7 @@ bool isTrue = true;
                       shrinkWrap: true,
                       itemCount: results.realm.isClosed ? 0 : results.length,
                       itemBuilder: (context, index) => results[index].isValid
-                          ? Container()/*TodoItem(results[index])*/
+                          ?Text("this is center")/*TodoItem(results[index])*/
                           : Container(),
                     );
                   },
@@ -82,7 +82,7 @@ bool isTrue = true;
             ),
           ],
         ),
-        realmServices!.isWaiting ? waitingIndicator() : Container(),
+        realmServices.isWaiting ? waitingIndicator() : Container(),
       ],
     );
   }

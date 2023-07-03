@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_todo/realm/sales_schema.dart';
 import 'package:provider/provider.dart';
 import 'package:flutter_todo/components/todo_list.dart';
 import 'package:flutter_todo/components/create_item.dart';
 import 'package:flutter_todo/realm/realm_services.dart';
+import 'package:realm/realm.dart';
 
 import '../realm/app_services.dart';
 
@@ -50,7 +52,9 @@ class _HomePageState extends State<HomePage> {
       // ),
       body: const TodoList(),
             floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
-            // floatingActionButton: const CreateItemAction(),
+             floatingActionButton: FloatingActionButton(onPressed: (){
+               Provider.of<RealmServices?>(context, listen: false)!.realm.write<Sale>(()=> Provider.of<RealmServices?>(context, listen: false)!.realm.add(Sale(ObjectId(),customer: SaleCustomer(age: 100))) );
+             }),
     );
   }
 }

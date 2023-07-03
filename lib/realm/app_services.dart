@@ -11,7 +11,7 @@ class AppServices with ChangeNotifier {
 
   Future<User> logInUserEmailPassword(String email, String password) async {
     User loggedInUser =
-        await app.logIn(Credentials.emailPassword(email, password));
+        await app.logIn(Credentials.anonymous());
     currentUser = loggedInUser;
     notifyListeners();
     return loggedInUser;

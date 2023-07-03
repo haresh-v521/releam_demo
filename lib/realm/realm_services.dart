@@ -20,9 +20,14 @@ class RealmServices with ChangeNotifier {
     if (app.currentUser != null || currentUser != app.currentUser) {
       currentUser ??= app.currentUser;
       realm = Realm(Configuration.flexibleSync(currentUser!, [Sale.schema,SaleCustomer.schema,SaleItems.schema]));
-      showAll = (realm.subscriptions.findByName(queryAllName) != null);
+
+     // showAll = (realm.subscriptions.findByName(queryAllName) != null);
       if (realm.subscriptions.isEmpty) {
+
         updateSubscriptions();
+      }else{
+        final data = realm.all<Sale>();
+        print("sdsdfjhgsddhf");
       }
     }
   }
@@ -30,14 +35,13 @@ class RealmServices with ChangeNotifier {
   Future<void> updateSubscriptions() async {
     realm.subscriptions.update((mutableSubscriptions) {
 
-      final data = realm.all<Sale>();
+
       if (showAll) {
-        mutableSubscriptions.add(realm.all<Sale>(), name: queryAllName);
+        mutableSubscriptions.add(realm.all<Sale>());
       } else {
 
           mutableSubscriptions.add(
-              realm.query<Sale>(r"storeLocation" ,["true"]),
-              name: queryMyItemsName);
+              realm.all<Sale>());
 
       }
     });
@@ -53,7 +57,7 @@ class RealmServices with ChangeNotifier {
         isWaiting = true;
         notifyListeners();
         realm.syncSession.resume();
-        await updateSubscriptions();
+       // await updateSubscriptions();
       } finally {
         isWaiting = false;
       }
@@ -67,7 +71,7 @@ class RealmServices with ChangeNotifier {
       try {
         isWaiting = true;
         notifyListeners();
-        await updateSubscriptions();
+       // await updateSubscriptions();
       } finally {
         isWaiting = false;
       }

@@ -4,7 +4,7 @@ part 'sales_schema.g.dart';
 // NOTE: These Realm models are private and therefore should be copied into the same .dart file.
 
 @RealmModel()
-@MapTo('sale')
+@MapTo('sales')
 class _Sale {
   @PrimaryKey()
   @MapTo('_id')
@@ -28,7 +28,7 @@ class _Sale {
 // NOTE: These Realm models are private and therefore should be copied into the same .dart file.
 
 @RealmModel(ObjectType.embeddedObject)
-@MapTo('sale_customer')
+@MapTo('customer')
 class _SaleCustomer {
   int? age;
 
@@ -43,7 +43,7 @@ class _SaleCustomer {
 // NOTE: These Realm models are private and therefore should be copied into the same .dart file.
 
 @RealmModel(ObjectType.embeddedObject)
-@MapTo('sale_items')
+@MapTo('items')
 class _SaleItems {
   String? name;
 

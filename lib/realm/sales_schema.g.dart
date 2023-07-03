@@ -84,14 +84,14 @@ class Sale extends _Sale with RealmEntity, RealmObjectBase, RealmObject {
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(Sale._);
-    return const SchemaObject(ObjectType.realmObject, Sale, 'sale', [
+    return const SchemaObject(ObjectType.realmObject, Sale, 'sales', [
       SchemaProperty('id', RealmPropertyType.objectid,
           mapTo: '_id', optional: true, primaryKey: true),
       SchemaProperty('couponUsed', RealmPropertyType.bool, optional: true),
       SchemaProperty('customer', RealmPropertyType.object,
-          optional: true, linkTarget: 'sale_customer'),
+          optional: true, linkTarget: 'customer'),
       SchemaProperty('items', RealmPropertyType.object,
-          linkTarget: 'sale_items', collectionType: RealmCollectionType.list),
+          linkTarget: 'items', collectionType: RealmCollectionType.list),
       SchemaProperty('purchaseMethod', RealmPropertyType.string,
           optional: true),
       SchemaProperty('saleDate', RealmPropertyType.timestamp, optional: true),
@@ -150,7 +150,7 @@ class SaleCustomer extends _SaleCustomer
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(SaleCustomer._);
     return const SchemaObject(
-        ObjectType.embeddedObject, SaleCustomer, 'sale_customer', [
+        ObjectType.embeddedObject, SaleCustomer, 'customer', [
       SchemaProperty('age', RealmPropertyType.int, optional: true),
       SchemaProperty('email', RealmPropertyType.string, optional: true),
       SchemaProperty('gender', RealmPropertyType.string, optional: true),
@@ -209,8 +209,7 @@ class SaleItems extends _SaleItems
   static SchemaObject? _schema;
   static SchemaObject _initSchema() {
     RealmObjectBase.registerFactory(SaleItems._);
-    return const SchemaObject(
-        ObjectType.embeddedObject, SaleItems, 'sale_items', [
+    return const SchemaObject(ObjectType.embeddedObject, SaleItems, 'items', [
       SchemaProperty('name', RealmPropertyType.string, optional: true),
       SchemaProperty('price', RealmPropertyType.double, optional: true),
       SchemaProperty('quantity', RealmPropertyType.int, optional: true),
